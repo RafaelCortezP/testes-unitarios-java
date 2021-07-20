@@ -2,6 +2,7 @@ package br.rafaelcortez.servicos;
 
 import static br.rafaelcortez.utils.DataUtils.adicionarDias;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import br.rafaelcortez.entidades.Locacao;
 import br.rafaelcortez.entidades.Usuario;
 import br.rafaelcortez.exceptions.FilmeSemEstoqueException;
 import br.rafaelcortez.exceptions.LocadoraException;
+import br.rafaelcortez.utils.DataUtils;
 
 public class LocacaoService {
 	
@@ -64,6 +66,9 @@ public class LocacaoService {
 		//Entrega no dia seguinte
 		Date dataEntrega = new Date();
 		dataEntrega = adicionarDias(dataEntrega, 1);
+		if(DataUtils.verificarDiaSemana(dataEntrega, Calendar.SUNDAY)) {
+			dataEntrega = adicionarDias(dataEntrega, 1);
+		}
 		locacao.setDataRetorno(dataEntrega);
 		
 		//Salvando a locacao...	
