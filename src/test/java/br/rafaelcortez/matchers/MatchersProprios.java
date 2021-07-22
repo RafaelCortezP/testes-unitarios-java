@@ -11,4 +11,8 @@ public class MatchersProprios {
 	public static DiaSemanaMatcher caiNumaSegunda() {
 		return new DiaSemanaMatcher(Calendar.MONDAY);
 	}
+	
+	public static DataDiferencaDiaMatcher ehHojeComDiferencaDias(Integer qtdDias) {
+		return new DataDiferencaDiaMatcher(qtdDias);
+	}
 }
