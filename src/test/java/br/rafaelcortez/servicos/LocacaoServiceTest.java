@@ -23,6 +23,8 @@ import br.rafaelcortez.entidades.Locacao;
 import br.rafaelcortez.entidades.Usuario;
 import br.rafaelcortez.exceptions.FilmeSemEstoqueException;
 import br.rafaelcortez.exceptions.LocadoraException;
+import br.rafaelcortez.matchers.DiaSemanaMatcher;
+import br.rafaelcortez.matchers.MatchersProprios;
 import br.rafaelcortez.utils.DataUtils;
 
 public class LocacaoServiceTest {
@@ -117,9 +119,10 @@ public class LocacaoServiceTest {
 		//acao	
 		Locacao resultado = service.alugarFilme(usuario, filmes);
 		
-		//verificacao
-		boolean ehSegunda = DataUtils.verificarDiaSemana(resultado.getDataRetorno(), Calendar.MONDAY);
-		Assert.assertTrue(ehSegunda);
+		//verificacao	
+		//MatcherAssert.assertThat(resultado.getDataRetorno(), new DiaSemanaMatcher(Calendar.MONDAY));
+		MatcherAssert.assertThat(resultado.getDataRetorno(), MatchersProprios.caiEm(Calendar.MONDAY));
+		//MatcherAssert.assertThat(resultado.getDataRetorno(), MatchersProprios.caiNumaSegunda());
 	}
 	
 }
