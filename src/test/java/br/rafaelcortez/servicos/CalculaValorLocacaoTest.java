@@ -14,6 +14,8 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
+import br.rafaelcortez.builders.FilmeBuilder;
+import br.rafaelcortez.builders.UsuarioBuilder;
 import br.rafaelcortez.entidades.Filme;
 import br.rafaelcortez.entidades.Locacao;
 import br.rafaelcortez.entidades.Usuario;
@@ -39,12 +41,12 @@ public class CalculaValorLocacaoTest {
 		service = new LocacaoService();
 	}
 	
-	private static Filme filme1 = new Filme("Filme 1", 2, 4.0);
-	private static Filme filme2 = new Filme("Filme 2", 3, 4.0);
-	private static Filme filme3 = new Filme("Filme 3", 1, 4.0);
-	private static Filme filme4 = new Filme("Filme 4", 1, 4.0);
-	private static Filme filme5 = new Filme("Filme 5", 1, 4.0);
-	private static Filme filme6 = new Filme("Filme 6", 1, 4.0);
+	private static Filme filme1 = FilmeBuilder.umFilme().agora();
+	private static Filme filme2 = FilmeBuilder.umFilme().agora();
+	private static Filme filme3 = FilmeBuilder.umFilme().agora();
+	private static Filme filme4 = FilmeBuilder.umFilme().agora();
+	private static Filme filme5 = FilmeBuilder.umFilme().agora();
+	private static Filme filme6 = FilmeBuilder.umFilme().agora();
 	
 	@Parameters(name = "{2}")
 	public static Collection<Object[]> getParametros(){
@@ -59,7 +61,7 @@ public class CalculaValorLocacaoTest {
 	@Test
 	public void deveCalcularValorLocacoConsiderandoDescontos() throws FilmeSemEstoqueException, LocadoraException{
 		//cenario
-		Usuario usuario = new Usuario("Rafael");
+		Usuario usuario = UsuarioBuilder.umUsuario().agora();
 		
 		//acao	
 		Locacao resultado = service.alugarFilme(usuario, filmes);

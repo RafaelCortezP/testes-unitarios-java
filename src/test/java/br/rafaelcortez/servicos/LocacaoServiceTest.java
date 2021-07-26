@@ -18,6 +18,8 @@ import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
 
+import br.rafaelcortez.builders.FilmeBuilder;
+import br.rafaelcortez.builders.UsuarioBuilder;
 import br.rafaelcortez.entidades.Filme;
 import br.rafaelcortez.entidades.Locacao;
 import br.rafaelcortez.entidades.Usuario;
@@ -47,8 +49,8 @@ public class LocacaoServiceTest {
 		Assume.assumeFalse(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
 		
 		//cenario
-		Usuario usuario = new Usuario("Rafael");
-		List<Filme> filmes = Arrays.asList(new Filme("Filme 1", 2, 5.0));
+		Usuario usuario = UsuarioBuilder.umUsuario().agora();
+		List<Filme> filmes = Arrays.asList(FilmeBuilder.umFilme().comValor(5.0).agora());
 			
 		//acao
 		 Locacao locacao = service.alugarFilme(usuario, filmes);
@@ -67,8 +69,8 @@ public class LocacaoServiceTest {
 	public void naoDeveAlugarFilmeSemEstoque() throws Exception {
 		
 		//cenario
-		Usuario usuario = new Usuario("Rafael");
-		List<Filme> filmes = Arrays.asList(new Filme("Filme 1", 0, 5.0));
+		Usuario usuario = UsuarioBuilder.umUsuario().agora();
+		List<Filme> filmes = Arrays.asList(FilmeBuilder.umFilmeSemEstoque().agora());
 			
 		//acao
 		service.alugarFilme(usuario, filmes);	
@@ -81,7 +83,7 @@ public class LocacaoServiceTest {
 	public void naoDeveAlugarFilmeSemUsuario() throws FilmeSemEstoqueException{
 		
 		//cenario
-		List<Filme> filmes = Arrays.asList(new Filme("Filme 1", 2, 5.0));
+		List<Filme> filmes = Arrays.asList(FilmeBuilder.umFilme().agora());
 			
 		//acao
 		try {
@@ -98,7 +100,7 @@ public class LocacaoServiceTest {
 	public void naoDeveAlugarFilmeSemFilme() throws FilmeSemEstoqueException, LocadoraException{
 		
 		//cenario
-		Usuario usuario = new Usuario("Rafael");
+		Usuario usuario = UsuarioBuilder.umUsuario().agora();
 		//Filme filme = new Filme("Filme 1", 1, 5.0);
 		
 		exception.expect(LocadoraException.class);
@@ -114,8 +116,8 @@ public class LocacaoServiceTest {
 		Assume.assumeTrue(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
 		
 		//cenario
-		Usuario usuario = new Usuario("Rafael");
-		List<Filme> filmes = Arrays.asList(new Filme("Filme 1", 2, 4.0));
+		Usuario usuario = UsuarioBuilder.umUsuario().agora();
+		List<Filme> filmes = Arrays.asList(FilmeBuilder.umFilme().agora());
 		
 		//acao	
 		Locacao resultado = service.alugarFilme(usuario, filmes);
