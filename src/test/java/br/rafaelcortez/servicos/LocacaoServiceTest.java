@@ -27,6 +27,7 @@ import br.rafaelcortez.exceptions.FilmeSemEstoqueException;
 import br.rafaelcortez.exceptions.LocadoraException;
 import br.rafaelcortez.matchers.MatchersProprios;
 import br.rafaelcortez.utils.DataUtils;
+import buildermaster.BuilderMaster;
 
 public class LocacaoServiceTest {
 	
@@ -126,6 +127,10 @@ public class LocacaoServiceTest {
 		//MatcherAssert.assertThat(resultado.getDataRetorno(), new DiaSemanaMatcher(Calendar.MONDAY));
 		MatcherAssert.assertThat(resultado.getDataRetorno(), MatchersProprios.caiEm(Calendar.MONDAY));
 		//MatcherAssert.assertThat(resultado.getDataRetorno(), MatchersProprios.caiNumaSegunda());
+	}
+	
+	public static void main(String[] args) {
+		new BuilderMaster().gerarCodigoClasse(Locacao.class);
 	}
 	
 }
