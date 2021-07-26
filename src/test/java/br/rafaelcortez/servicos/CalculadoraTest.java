@@ -64,5 +64,19 @@ public class CalculadoraTest {
 		calc.dividir(a, b);
 		
 	}
+	
+	@Test
+	public void deveDividirDoisValores2() {
+		//cenario
+		String a = "6";
+		String b = "3";
+		
+		//acao
+		int resultado = calc.dividir2(a, b);
+		
+		//verificacao
+		Assert.assertEquals(2, resultado);
+	}
+	
 
 }
