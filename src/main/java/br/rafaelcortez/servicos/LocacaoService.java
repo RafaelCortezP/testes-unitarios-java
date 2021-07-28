@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import br.rafaelcortez.daos.LocacaoDAO;
 import br.rafaelcortez.entidades.Filme;
 import br.rafaelcortez.entidades.Locacao;
 import br.rafaelcortez.entidades.Usuario;
@@ -16,6 +17,8 @@ import br.rafaelcortez.utils.DataUtils;
 public class LocacaoService {
 	
 	public Locacao alugarFilme(Usuario usuario, List<Filme> filmes) throws FilmeSemEstoqueException, LocadoraException{
+		
+		LocacaoDAO dao = null;
 		
 		if(usuario == null) {
 			throw new LocadoraException("Usuario vazio");
@@ -72,7 +75,7 @@ public class LocacaoService {
 		locacao.setDataRetorno(dataEntrega);
 		
 		//Salvando a locacao...	
-		//TODO adicionar método para salvar
+		dao.salvar(locacao);
 		
 		return locacao;
 	}
