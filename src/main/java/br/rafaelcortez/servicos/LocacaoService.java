@@ -16,9 +16,10 @@ import br.rafaelcortez.utils.DataUtils;
 
 public class LocacaoService {
 	
+	private LocacaoDAO dao;
+
 	public Locacao alugarFilme(Usuario usuario, List<Filme> filmes) throws FilmeSemEstoqueException, LocadoraException{
 		
-		LocacaoDAO dao = null;
 		
 		if(usuario == null) {
 			throw new LocadoraException("Usuario vazio");
@@ -78,6 +79,10 @@ public class LocacaoService {
 		dao.salvar(locacao);
 		
 		return locacao;
+	}
+	
+	public void setLocacaoDAO(LocacaoDAO dao) {
+		this.dao = dao;
 	}
 
 }

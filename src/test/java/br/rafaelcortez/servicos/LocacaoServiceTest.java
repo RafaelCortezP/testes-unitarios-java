@@ -20,6 +20,8 @@ import org.junit.rules.ExpectedException;
 
 import br.rafaelcortez.builders.FilmeBuilder;
 import br.rafaelcortez.builders.UsuarioBuilder;
+import br.rafaelcortez.daos.LocacaoDAO;
+import br.rafaelcortez.daos.LocacaoDAOFake;
 import br.rafaelcortez.entidades.Filme;
 import br.rafaelcortez.entidades.Locacao;
 import br.rafaelcortez.entidades.Usuario;
@@ -42,6 +44,8 @@ public class LocacaoServiceTest {
 	@Before
 	public void setup() {
 		service = new LocacaoService();
+		LocacaoDAO dao = new LocacaoDAOFake();
+		service.setLocacaoDAO(dao);
 		//System.out.println("before");
 	}
 	
