@@ -18,6 +18,7 @@ import org.mockito.Mockito;
 import br.rafaelcortez.builders.FilmeBuilder;
 import br.rafaelcortez.builders.UsuarioBuilder;
 import br.rafaelcortez.daos.LocacaoDAO;
+import br.rafaelcortez.daos.SPCService;
 import br.rafaelcortez.entidades.Filme;
 import br.rafaelcortez.entidades.Locacao;
 import br.rafaelcortez.entidades.Usuario;
@@ -43,6 +44,9 @@ public class CalculaValorLocacaoTest {
 		service = new LocacaoService();
 		LocacaoDAO dao = Mockito.mock(LocacaoDAO.class);
 		service.setLocacaoDAO(dao);
+		
+		SPCService spc = Mockito.mock(SPCService.class);
+		service.setSPCService(spc);
 	}
 	
 	private static Filme filme1 = FilmeBuilder.umFilme().agora();

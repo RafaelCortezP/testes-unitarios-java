@@ -22,6 +22,7 @@ import org.mockito.Mockito;
 import br.rafaelcortez.builders.FilmeBuilder;
 import br.rafaelcortez.builders.UsuarioBuilder;
 import br.rafaelcortez.daos.LocacaoDAO;
+import br.rafaelcortez.daos.SPCService;
 import br.rafaelcortez.entidades.Filme;
 import br.rafaelcortez.entidades.Locacao;
 import br.rafaelcortez.entidades.Usuario;
@@ -29,11 +30,14 @@ import br.rafaelcortez.exceptions.FilmeSemEstoqueException;
 import br.rafaelcortez.exceptions.LocadoraException;
 import br.rafaelcortez.matchers.MatchersProprios;
 import br.rafaelcortez.utils.DataUtils;
-import buildermaster.BuilderMaster;
 
 public class LocacaoServiceTest {
 	
 	LocacaoService service;
+	
+	SPCService spc;
+	
+	LocacaoDAO dao;
 	
 	@Rule
 	public ErrorCollector error = new ErrorCollector();
@@ -44,9 +48,11 @@ public class LocacaoServiceTest {
 	@Before
 	public void setup() {
 		service = new LocacaoService();
-		LocacaoDAO dao = Mockito.mock(LocacaoDAO.class);
+		dao = Mockito.mock(LocacaoDAO.class);
 		service.setLocacaoDAO(dao);
-		//System.out.println("before");
+		
+		spc = Mockito.mock(SPCService.class);
+		service.setSPCService(spc);
 	}
 	
 	@Test
@@ -133,8 +139,19 @@ public class LocacaoServiceTest {
 		//MatcherAssert.assertThat(resultado.getDataRetorno(), MatchersProprios.caiNumaSegunda());
 	}
 	
-	public static void main(String[] args) {
-		new BuilderMaster().gerarCodigoClasse(Locacao.class);
+	@Test
+	public void naoDeveAlugarFilmeParaNegativadoSPC() throws FilmeSemEstoqueException, LocadoraException {
+		//cenario
+		Usuario usuario = UsuarioBuilder.umUsuario().agora();
+		List<Filme> filmes = Arrays.asList(FilmeBuilder.umFilme().agora());
+		
+		Mockito.when(spc.possuiNegativacao(usuario)).thenReturn(true);
+		
+		exception.expect(LocadoraException.class);
+		exception.expectMessage("Usuario Negativado");
+		
+		//acao	
+		service.alugarFilme(usuario, filmes);
 	}
 	
 }
