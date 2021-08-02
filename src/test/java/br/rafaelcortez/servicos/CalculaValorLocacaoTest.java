@@ -13,7 +13,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import br.rafaelcortez.builders.FilmeBuilder;
 import br.rafaelcortez.builders.UsuarioBuilder;
@@ -37,16 +40,19 @@ public class CalculaValorLocacaoTest {
 	@Parameter(value = 2)
 	public String cenario;
 	
+	@InjectMocks
 	LocacaoService service;
+	
+	@Mock
+	SPCService spc;
+	
+	@Mock
+	LocacaoDAO dao;
+	
 	
 	@Before
 	public void setup() {
-		service = new LocacaoService();
-		LocacaoDAO dao = Mockito.mock(LocacaoDAO.class);
-		service.setLocacaoDAO(dao);
-		
-		SPCService spc = Mockito.mock(SPCService.class);
-		service.setSPCService(spc);
+		MockitoAnnotations.initMocks(this);
 	}
 	
 	private static Filme filme1 = FilmeBuilder.umFilme().agora();
