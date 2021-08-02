@@ -20,6 +20,7 @@ import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
 import br.rafaelcortez.builders.FilmeBuilder;
+import br.rafaelcortez.builders.LocacaoBuilder;
 import br.rafaelcortez.builders.UsuarioBuilder;
 import br.rafaelcortez.daos.LocacaoDAO;
 import br.rafaelcortez.daos.SPCService;
@@ -39,6 +40,8 @@ public class LocacaoServiceTest {
 	
 	LocacaoDAO dao;
 	
+	EmailService email;
+	
 	@Rule
 	public ErrorCollector error = new ErrorCollector();
 	
@@ -53,6 +56,9 @@ public class LocacaoServiceTest {
 		
 		spc = Mockito.mock(SPCService.class);
 		service.setSPCService(spc);
+		
+		email = Mockito.mock(EmailService.class);
+		service.setEmailService(email);
 	}
 	
 	@Test
@@ -140,18 +146,38 @@ public class LocacaoServiceTest {
 	}
 	
 	@Test
-	public void naoDeveAlugarFilmeParaNegativadoSPC() throws FilmeSemEstoqueException, LocadoraException {
+	public void naoDeveAlugarFilmeParaNegativadoSPC() throws FilmeSemEstoqueException {
 		//cenario
 		Usuario usuario = UsuarioBuilder.umUsuario().agora();
 		List<Filme> filmes = Arrays.asList(FilmeBuilder.umFilme().agora());
 		
 		Mockito.when(spc.possuiNegativacao(usuario)).thenReturn(true);
 		
-		exception.expect(LocadoraException.class);
-		exception.expectMessage("Usuario Negativado");
+		//acao	
+		try {
+			service.alugarFilme(usuario, filmes);
+		//verificação
+			Assert.fail();
+		} catch (LocadoraException e) {
+			MatcherAssert.assertThat(e.getMessage(), is("Usuario Negativado"));
+		}
+		
+		Mockito.verify(spc).possuiNegativacao(usuario);
+	}
+	
+	@Test
+	public void deveEnviarEmailParaLocacoesAtrasadas() {
+		//cenario
+		Usuario usuario = UsuarioBuilder.umUsuario().agora();
+		List<Locacao> locacoes = Arrays.asList(LocacaoBuilder.umLocacao().comUsuario(usuario).comDataRetorno(DataUtils.obterDataComDiferencaDias(-2)).agora());
+		
+		Mockito.when(dao.obterLocacoesPendentes()).thenReturn(locacoes);
 		
 		//acao	
-		service.alugarFilme(usuario, filmes);
+		service.notificarAtrasos();
+		
+		//verificação
+		Mockito.verify(email).notificarAtraso(usuario);
 	}
 	
 }

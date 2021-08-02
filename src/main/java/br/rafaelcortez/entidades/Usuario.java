@@ -42,5 +42,10 @@ public class Usuario {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Usuario [nome=" + nome + "]";
+	}
 	
 }
