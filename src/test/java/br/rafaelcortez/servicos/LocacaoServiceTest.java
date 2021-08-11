@@ -16,14 +16,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.reflect.Whitebox;
 
 import br.rafaelcortez.builders.FilmeBuilder;
 import br.rafaelcortez.builders.LocacaoBuilder;
@@ -36,8 +35,10 @@ import br.rafaelcortez.entidades.Usuario;
 import br.rafaelcortez.exceptions.FilmeSemEstoqueException;
 import br.rafaelcortez.exceptions.LocadoraException;
 import br.rafaelcortez.matchers.MatchersProprios;
+import br.rafaelcortez.runners.ParallelRunner;
 import br.rafaelcortez.utils.DataUtils;
 
+@RunWith(ParallelRunner.class)
 public class LocacaoServiceTest {
 	
 	@InjectMocks @Spy

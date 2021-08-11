@@ -3,9 +3,12 @@ package br.rafaelcortez.servicos;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import br.rafaelcortez.exceptions.NaoPodeDividirPorZeroException;
+import br.rafaelcortez.runners.ParallelRunner;
 
+@RunWith(ParallelRunner.class)
 public class CalculadoraTest {
 	
 	Calculadora calc;
