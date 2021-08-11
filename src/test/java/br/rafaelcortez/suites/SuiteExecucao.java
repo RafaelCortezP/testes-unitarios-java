@@ -8,9 +8,9 @@ import br.rafaelcortez.servicos.CalculaValorLocacaoTest;
 import br.rafaelcortez.servicos.CalculadoraTest;
 import br.rafaelcortez.servicos.LocacaoServiceTest;
 
-@RunWith(Suite.class)
+//@RunWith(Suite.class)
 @SuiteClasses({
-	CalculadoraTest.class,
+	//CalculadoraTest.class,
 	CalculaValorLocacaoTest.class,
 	LocacaoServiceTest.class
 })
